@@ -1,0 +1,35 @@
+﻿@model IEnumerable<FamilyDoctor.Models.Notification>
+
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<h2>Notifications</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Seen</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var notification in Model)
+        {
+            <tr>
+                <td>@notification.Message</td>
+                <td>@notification.Date</td>
+                <td>@notification.Seen</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="MarkAllAsSeen" method="post">
+    <button type="submit" class="btn btn-primary">Mark all as seen</button>
+</form>
+
+<form asp-action="DeleteAll" method="post">
+    <button type="submit" class="btn btn-danger">Delete all</button>
+</form>

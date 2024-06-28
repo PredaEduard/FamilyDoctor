@@ -1,0 +1,29 @@
+﻿@model IEnumerable<FamilyDoctor.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<h2>Appointments</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.AppointmentDate</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create">Create New</a>
