@@ -22,7 +22,6 @@ public class DoctorController : Controller
         var userIdString = _userManager.GetUserId(User);
         var appointments = await _context.Appointments
             .Include(a => a.Patient)
-            .Where(a => a.DoctorId == userIdString)
             .ToListAsync();
 
         return View(appointments);
@@ -32,9 +31,12 @@ public class DoctorController : Controller
     public async Task<IActionResult> Accept(int id)
     {
         var appointment = await _context.Appointments.FindAsync(id);
+        var userIdString = _userManager.GetUserId(User);
+        
         if (appointment != null)
         {
             appointment.Status = AppointmentStatus.Accepted;
+            appointment.DoctorId = userIdString;
             await _context.SaveChangesAsync();
         }
         return RedirectToAction(nameof(Index));
