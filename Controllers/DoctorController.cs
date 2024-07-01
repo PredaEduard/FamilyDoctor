@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FamilyDoctor.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FamilyDoctor.Data;
-using FamilyDoctor.Models;
-using System.Linq;
-using System.Threading.Tasks;
 
 [Authorize(Roles = "Doctor")]
 public class DoctorController : Controller
@@ -21,11 +19,12 @@ public class DoctorController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var userId = _userManager.GetUserId(User);
+        var userIdString = _userManager.GetUserId(User);
         var appointments = await _context.Appointments
             .Include(a => a.Patient)
-            .Where(a => a.DoctorId == userId)
+            .Where(a => a.DoctorId == userIdString)
             .ToListAsync();
+
         return View(appointments);
     }
 
@@ -35,7 +34,7 @@ public class DoctorController : Controller
         var appointment = await _context.Appointments.FindAsync(id);
         if (appointment != null)
         {
-            appointment.Status = "Accepted";
+            appointment.Status = AppointmentStatus.Accepted;
             await _context.SaveChangesAsync();
         }
         return RedirectToAction(nameof(Index));
@@ -47,7 +46,7 @@ public class DoctorController : Controller
         var appointment = await _context.Appointments.FindAsync(id);
         if (appointment != null)
         {
-            appointment.Status = "Rejected";
+            appointment.Status = AppointmentStatus.Rejected;
             await _context.SaveChangesAsync();
         }
         return RedirectToAction(nameof(Index));

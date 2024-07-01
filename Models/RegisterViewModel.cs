@@ -10,6 +10,7 @@ namespace FamilyDoctor.Models
 
         [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]

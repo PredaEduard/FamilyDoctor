@@ -12,6 +12,7 @@
             <th>Patient</th>
             <th>Date</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -19,8 +20,21 @@
         {
             <tr>
                 <td>@appointment.Patient.Email</td>
-                <td>@appointment.AppointmentDate</td>
+                <td>@appointment.Date</td>
                 <td>@appointment.Status</td>
+                <td>
+                    @if (appointment.Status == FamilyDoctor.Models.AppointmentStatus.Pending)
+                    {
+                        <form asp-action="Accept" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@appointment.Id" />
+                            <button type="submit" class="btn btn-success">Accept</button>
+                        </form>
+                        <form asp-action="Reject" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@appointment.Id" />
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    }
+                </td>
             </tr>
         }
     </tbody>

@@ -4,22 +4,34 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FamilyDoctor.Models
 {
+    public enum AppointmentStatus
+    {
+        Pending,
+        Accepted,
+        Rejected
+    }
+
     public class Appointment
     {
         public int Id { get; set; }
 
         [Required]
-        public string PatientId { get; set; } // ID-ul pacientului
-        public IdentityUser Patient { get; set; }
+        [Display(Name = "Appointment Date")]
+        public DateTime Date { get; set; }
 
         [Required]
-        public string DoctorId { get; set; } // ID-ul doctorului
-        public IdentityUser Doctor { get; set; }
+        [Display(Name = "Patient Name")]
+        public string PatientName { get; set; }
 
         [Required]
-        public DateTime AppointmentDate { get; set; }
+        [Display(Name = "Status")]
+        public AppointmentStatus? Status { get; set; } = AppointmentStatus.Pending;
 
-        [Required]
-        public string Status { get; set; } // Pending, Accepted, Rejected
+        public string? PatientId { get; set; }
+        public IdentityUser? Patient { get; set; }
+
+        public string? DoctorId { get; set; }
+        public IdentityUser? Doctor { get; set; } // Adăugăm proprietatea de navigare pentru Doctor
     }
+
 }
